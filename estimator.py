@@ -1,5 +1,6 @@
-import tensorflow as tf
 import argparse
+
+import tensorflow as tf
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--batch_size', default=100, type=int, help='batch size')
@@ -50,4 +51,10 @@ def my_model(features, labels, mode, params):
 
 def main(argv):
     # todo
+    # specify columns and which to use (hash for big ranges)
+    # delete??? useless data (try with and without - better rate wins)
+
+
+
+
     args = parser.parse_args(argv[1])
