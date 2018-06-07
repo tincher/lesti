@@ -1,4 +1,9 @@
+from api_layer import gamepedia_api as gapi
 from api_layer import riot_api
+
+
+def load_train_data():
+    return 0
 
 
 def load_challenger_data():
@@ -7,4 +12,5 @@ def load_challenger_data():
 
 
 def load_current_lcs_players():
-    riot_api.get_current_lcs()
+    lcs_players = gapi.get_current_lcs()
+    return lcs_players

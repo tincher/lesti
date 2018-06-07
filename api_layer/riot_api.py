@@ -1,29 +1,42 @@
+import time
+
 import requests
-from string import Template
 
-headers = {'X-Riot-Token': 'RGAPI-2780f9b8-94d3-4d51-9f4d-c406fe5f25e7'}
+from api_layer import url_builder
 
-ranked_extension = '?queue=4&queue=6&queue=42&queue=410&queue=420&queue=440'
-base_url = 'https://euw1.api.riotgames.com/lol/'
+headers = {'X-Riot-Token': 'RGAPI-9db58bc2-97b2-42f9-a9cc-f28569151042'}
 
-raw_url_summoner_id = Template(base_url + 'summoner/v3/summoners/by-name/$name')
-raw_url_match_list = Template(base_url + 'match/v3/matchlists/by-account/$id')
 
-challenger_url = base_url + 'league/v3/challengerleagues/by-queue/RANKED_SOLO_5x5'
+def matches_from_last_months(name, months):
+    start_time = int((time.time() - (60 * 60 * 24 * 30 * months)) * 1000)
+    print(start_time)
+    account_id = get_account(name)['accountId']
+    return get_match_list_from_last_months(account_id, start_time)
+
+
+def get_match_list_from_last_months(account_id, start_time):
+    end, begin_index = -1, 0
+    result = []
+    while begin_index > end:
+        r = get_request(url_builder.match_list(account_id, start_time, begin_index))
+        end = r['totalGames']
+        begin_index = r['endIndex']
+        result += r['matches']
+    return result
 
 
 def get_challengers():
-    return requests.get(challenger_url, headers=headers).json()
+    return get_request(url_builder.challenger_url())
 
 
 def get_account(name):
-    return requests.get(raw_url_summoner_id.substitute(name=name), headers=headers).json()
+    return get_request(url_builder.account_url(name))
 
 
-def get_match_list(account_id):
-    return requests.get(raw_url_match_list.substitute(id=account_id), headers=headers).json()
+def get_request(url):
+    return requests.get(url, headers=headers).json()
 
 
-def get_ranked_matches(name):
-    account_id = get_account(name).get('accountId')
-    return requests.get(raw_url_match_list.substitute(id=account_id) + ranked_extension, headers=headers).json()
+# matches_from_last_months('a', 6)
+# print(get_account('bigmcjoe'))
+print(matches_from_last_months('bigmcjoe', 6))

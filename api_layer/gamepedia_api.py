@@ -9,8 +9,4 @@ def get_current_lcs():
     content = requests.get(gp_current_players).text
     soup = BeautifulSoup(content, 'html.parser')
     ls = soup.find_all('td', class_='field_ID')
-    for pro in ls:
-        print(pro.text)
-
-
-get_current_lcs()
+    return list(map(lambda pro: pro.text, ls))
