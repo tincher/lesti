@@ -34,7 +34,7 @@ def get_match_list_from_last_months(account_id, start_time):
 
 
 def get_challengers():
-    return get_request(url_builder.challenger_url())
+    return get_request(url_builder.get_challenger_url())
 
 
 def get_account_id(name):

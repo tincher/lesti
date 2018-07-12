@@ -4,7 +4,7 @@ from api_layer import training_data as td
 
 def main():
     challengers = td.load_challenger_data()
-    print(rapi.get_account('EPiC majo'))
+    print(rapi.get_account_id('EPiC majo'))
 
 
 main()

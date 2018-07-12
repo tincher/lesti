@@ -15,7 +15,7 @@ begin_index_extension = Template('beginIndex=$bindex&')
 end_index_extension = Template('endIndex=&eindex&')
 
 
-def challenger_url():
+def get_challenger_url():
     return challenger_url
 
 
